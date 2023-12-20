@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Verify OTP for {{ username }}</h1>
+    <form method="post" action="/verify">
+        <label for="otp">Enter OTP:</label><br>
+        <input type="text" id="otp" name="otp" required><br><br>
+        <label for="otp">Enter QR code:</label><br>
+        <input type="text" id="qr_code_otp" name="qr_code_otp" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <h1>Save Your OTP</h1>
+    <p>Scan the QR code below with your authenticator app:</p>
+    <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code">
+    <p>Secret Key: {{ otp_secret }}</p>
+    <p>Please save this secret key for future use.</p>
+</body>
+</html>

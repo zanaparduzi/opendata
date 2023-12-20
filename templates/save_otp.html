@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Successful</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Registration Successful</h1>
+    <p>Copy your OTP, you will be asked to provide it later as a Double Authentication Factor. Your OTP will disappear in 20 seconds, and you will never see your OTP again.</p>
+    
+    <!-- Display OTP and countdown timer -->
+    <div id="otp_div">
+        <p>Your OTP:</p>
+        <p id="otp">{{ otp_secret }}</p>
+        <p id="timer">This page will disappear in <span id="countdown">20</span> seconds</p>
+    </div>
+    <h1>Save Your OTP</h1>
+    <p>Scan the QR code below with your authenticator app:</p>
+    <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code">
+    <p>Secret Key: {{ otp_secret }}</p>
+    <p>Please save this secret key for future use.</p>
+    <button onclick="redirectToLogin()">Go to Login Page</button>
+
+    <script>
+        function redirectToLogin() {
+                window.location.href = "{{ url_for('login') }}";  // Redirect to the login page
+            }
+        // Function to decrement the timer and hide OTP after 20 seconds
+        function hideOTP() {
+            
+            var countdown = document.getElementById('countdown');
+            var timeLeft = parseInt(countdown.textContent);
+
+            if (timeLeft > 0) {
+                countdown.textContent = timeLeft - 1;
+                setTimeout(hideOTP, 1000); // Update every second (1000 milliseconds)
+            } else {
+                document.getElementById('otp_div').style.display = 'none';
+            }
+        }
+
+        // Start the timer on page load
+        window.onload = function() {
+            setTimeout(hideOTP, 1000); // Start the timer after 1 second
+        };
+        
+    </script>
+</body>
+</html>

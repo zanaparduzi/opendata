@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MeteoAG</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>MeteoAG</h1>
+    <div id="loginSection">
+        <form id="loginForm" action="/login2" method="post">
+            <input type="text" id="username" name="username" placeholder="Enter username">
+            <input type="password" id="password" name="password" placeholder="Enter password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+</body>
+</html>
