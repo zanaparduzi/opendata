@@ -1,5 +1,3 @@
-from flask import Flask, render_template
-import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
 import os
@@ -10,11 +8,14 @@ import qrcode
 from pyotp import TOTP
 from io import BytesIO
 import base64
-
+from config import Config
+import pandas as pd
 
 app = Flask(__name__)
+app.config.from_object(Config)
+config_instance = Config()
 
-data = pd.read_csv('/Users/parduzizana/Documents/INFO_5A/Big Data/opendata/data.csv', encoding='ISO-8859-1')  # Replace 'ISO-8859-1' with the appropriate encoding
+data = pd.read_csv(config_instance.mydata, encoding='ISO-8859-1')  # Replace 'ISO-8859-1' with the appropriate encoding
 app.secret_key = os.urandom(24)
 app.config['OTP_SECRET'] = OTPSecret()
 otp = OTP(app)
@@ -23,9 +24,9 @@ otp = OTP(app)
 # Database Configuration
 db = mysql.connector.connect(
     host='localhost',
-    user='root',
-    password='new_password',
-    database='weatherApp'
+    user= config_instance.user,
+    password= config_instance.password,
+    database=config_instance.database
 )
 cursor = db.cursor(buffered=True)
 
